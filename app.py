@@ -272,125 +272,16 @@ def get_final_material(data):
 if st.session_state.page == "home":
 
     # ==========================
-    # デザイン設定
-    # ==========================
-
-    st.markdown("""
-    <style>
-
-    /* ページ全体 */
-    .block-container {
-        padding-top: 3rem;
-        max-width: 1000px;
-    }
-
-    /* ヘッダー */
-    .home-header {
-        text-align: center;
-        margin-bottom: 35px;
-    }
-
-    .home-title {
-        font-size: 42px;
-        font-weight: 700;
-        margin-bottom: 8px;
-    }
-
-    .home-subtitle {
-        font-size: 18px;
-        color: #666;
-    }
-
-    /* できること */
-    .section-title {
-        font-size: 24px;
-        font-weight: 700;
-        margin-bottom: 18px;
-    }
-
-    /* カード */
-    .feature-card {
-        background: #f7f9fc;
-        border: 1px solid #e3e8ef;
-        border-radius: 16px;
-        padding: 24px 20px;
-        text-align: center;
-        min-height: 150px;
-        margin-bottom: 18px;
-        transition: all 0.2s ease;
-    }
-
-    .feature-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-        background: #eef5ff;
-    }
-
-    .feature-icon {
-        font-size: 35px;
-        margin-bottom: 8px;
-    }
-
-    .feature-title {
-        font-size: 19px;
-        font-weight: 700;
-        margin-bottom: 8px;
-    }
-
-    .feature-description {
-        font-size: 14px;
-        color: #666;
-        line-height: 1.6;
-    }
-
-    /* スマホ対応 */
-    @media (max-width: 768px) {
-
-        .block-container {
-            padding-top: 1.5rem;
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-
-        .home-title {
-            font-size: 30px;
-        }
-
-        .home-subtitle {
-            font-size: 15px;
-        }
-
-        .section-title {
-            font-size: 21px;
-        }
-
-        .feature-card {
-            min-height: auto;
-            padding: 20px 15px;
-        }
-    }
-
-    </style>
-    """, unsafe_allow_html=True)
-
-
-    # ==========================
     # タイトル
     # ==========================
 
-    st.markdown("""
-    <div class="home-header">
+    st.title("📚 AI学習支援サービス")
 
-        <div class="home-title">
-            📚 AI学習支援サービス
-        </div>
+    st.markdown(
+        "### 「分かったつもり」をなくし、効率的な復習をサポート"
+    )
 
-        <div class="home-subtitle">
-            「分かったつもり」をなくし、効率的な復習をサポート
-        </div>
-
-    </div>
-    """, unsafe_allow_html=True)
+    st.divider()
 
 
     # ==========================
@@ -400,112 +291,83 @@ if st.session_state.page == "home":
     with st.expander("❓ このサービスの使い方"):
 
         st.markdown("""
-        **① 教材を追加する**  
+        **① 新しい教材を追加**
+
         授業名や講義資料（PDF）を登録します。
 
-        **② AIで講義内容を整理する**  
-        講義資料から要約や重要ポイントを確認できます。
+        **② 講義内容を整理**
 
-        **③ 確認問題に挑戦する**  
-        AIが作成した問題を解いて、理解度を確認します。
+        講義資料からAIが要約や重要ポイントを整理します。
 
-        **④ 復習する**  
-        理解が不十分な内容を振り返り、学習に活用します。
+        **③ 確認問題に挑戦**
+
+        AIが講義内容から確認問題を作成します。
+
+        **④ 復習する**
+
+        確認問題などを活用して、理解が不十分な内容を復習します。
         """)
 
 
     # ==========================
-    # できること
+    # このサービスでできること
     # ==========================
 
-    st.markdown(
-        '<div class="section-title">✨ このサービスでできること</div>',
-        unsafe_allow_html=True
-    )
+    st.subheader("✨ このサービスでできること")
 
     col1, col2 = st.columns(2)
 
     with col1:
 
-        st.markdown("""
-        <div class="feature-card">
+        with st.container(border=True):
 
-            <div class="feature-icon">✨</div>
+            st.markdown("## ✨ AI要約")
 
-            <div class="feature-title">
-                AI要約
-            </div>
-
-            <div class="feature-description">
-                講義資料の内容をAIが整理し、
-                短時間で復習しやすくします。
-            </div>
-
-        </div>
-        """, unsafe_allow_html=True)
+            st.write(
+                "講義資料の内容をAIが整理し、"
+                "短時間で復習しやすくします。"
+            )
 
 
-        st.markdown("""
-        <div class="feature-card">
+        with st.container(border=True):
 
-            <div class="feature-icon">🎯</div>
+            st.markdown("## 🎯 重要ポイント整理")
 
-            <div class="feature-title">
-                重要ポイント整理
-            </div>
-
-            <div class="feature-description">
-                講義資料から重要な内容を整理し、
-                学習すべきポイントを確認できます。
-            </div>
-
-        </div>
-        """, unsafe_allow_html=True)
+            st.write(
+                "講義資料から重要な内容を整理し、"
+                "学習すべきポイントを確認できます。"
+            )
 
 
     with col2:
 
-        st.markdown("""
-        <div class="feature-card">
+        with st.container(border=True):
 
-            <div class="feature-icon">📝</div>
+            st.markdown("## 📝 確認問題")
 
-            <div class="feature-title">
-                確認問題
-            </div>
-
-            <div class="feature-description">
-                AIが講義内容から問題を生成し、
-                理解度を確認できます。
-            </div>
-
-        </div>
-        """, unsafe_allow_html=True)
+            st.write(
+                "AIが講義内容から問題を生成し、"
+                "自分の理解度を確認できます。"
+            )
 
 
-        st.markdown("""
-        <div class="feature-card">
+        with st.container(border=True):
 
-            <div class="feature-icon">🔄</div>
+            st.markdown("## 🔄 復習ポイント")
 
-            <div class="feature-title">
-                復習ポイント
-            </div>
-
-            <div class="feature-description">
-                理解が不十分な内容を振り返り、
-                効率的な復習をサポートします。
-            </div>
-
-        </div>
-        """, unsafe_allow_html=True)
+            st.write(
+                "理解が不十分な内容を振り返り、"
+                "効率的な復習をサポートします。"
+            )
 
 
     # ==========================
-    # メインボタン
+    # 学習を始める
     # ==========================
 
-    st.markdown("<br>", unsafe_allow_html=True)
+    st.divider()
+
+    st.subheader("📖 学習を始める")
 
     col1, col2 = st.columns(2)
 
@@ -513,7 +375,7 @@ if st.session_state.page == "home":
 
         if st.button(
             "➕ 新しい教材を追加",
-            use_container_width=True
+            width="stretch"
         ):
 
             st.session_state.page = "new_subject"
@@ -524,93 +386,11 @@ if st.session_state.page == "home":
 
         if st.button(
             "📖 続きから学習",
-            use_container_width=True
+            width="stretch"
         ):
 
             st.session_state.page = "resume"
             st.rerun()
-            
-# ==========================
-# 教科追加
-# ==========================
-
-elif st.session_state.page == "new_subject":
-
-    st.title("➕ 教科登録")
-
-    subject_name = st.text_input("授業名")
-
-    total_lessons = st.number_input(
-        "授業回数",
-        min_value=1,
-        value=15
-    )
-
-    midterm = st.checkbox("中間テストあり")
-
-    midterm_range = ""
-
-    if midterm:
-
-        midterm_range = st.text_input(
-            "中間範囲（例：7 → 第1回〜第7回）"
-        )
-
-    final_exam = st.checkbox("期末テストあり")
-
-    final_range = ""
-
-    if final_exam:
-
-        final_range = st.text_input(
-            "期末範囲（例：15 → 第1回〜第15回）"
-        )
-
-    test_features = st.text_area(
-        "テストの特徴"
-    )
-
-    # 保存ボタン
-    if st.button("保存"):
-
-        if subject_name == "":
-
-            st.error("授業名を入力してください")
-
-        else:
-
-            data = {
-                "subject_name": subject_name,
-                "total_lessons": total_lessons,
-                "midterm": midterm,
-                "midterm_range": midterm_range,
-                "final_exam": final_exam,
-                "final_range": final_range,
-                "test_features": test_features,
-
-                # 授業データ
-                "lessons": {},
-
-                # 学習履歴
-                "study_history": [],
-
-                # テスト結果
-                "midterm_results": [],
-                "final_results": []
-            }
-
-            save_subject(data)
-
-            st.success("保存しました")
-
-            st.session_state.page = "resume"
-            st.rerun()
-
-    # ホームへ戻る
-    if st.button("← ホームへ戻る"):
-
-        st.session_state.page = "home"
-        st.rerun()
 
 # ==========================
 # 教科一覧画面
