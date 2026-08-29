@@ -1011,8 +1011,7 @@ elif st.session_state.page == "resume":
 
     if st.button(
         "➕ 新しい教科を追加",
-        width="stretch",
-        type="primary"
+        width="stretch"
     ):
 
         st.session_state.page = "new_subject"
@@ -1024,7 +1023,7 @@ elif st.session_state.page == "resume":
     # ==========================
 
     if st.button(
-        "← ホームへ戻る",
+        "🏠 ホーム画面に戻る",
         width="stretch"
     ):
 
