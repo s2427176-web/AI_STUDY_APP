@@ -1038,20 +1038,31 @@ elif st.session_state.page == "resume":
 
 elif st.session_state.page == "subject":
 
+    # ==========================
+    # 教科が選択されているか確認
+    # ==========================
 
     if st.session_state.selected_subject is None:
 
         st.warning("教科を選択してください")
 
         st.session_state.page = "resume"
+
         st.rerun()
 
 
+    # ==========================
+    # 教科データ読み込み
+    # ==========================
 
     data = load_subject(
         st.session_state.selected_subject
     )
 
+
+    # ==========================
+    # 教科名
+    # ==========================
 
     st.title(
         f"📘 {data['subject_name']}"
@@ -1061,6 +1072,7 @@ elif st.session_state.page == "subject":
     st.info(
         f"授業回数：{data['total_lessons']}回"
     )
+
 
     # ==========================
     # 教科情報の修正
@@ -1072,8 +1084,8 @@ elif st.session_state.page == "subject":
     ):
 
         st.session_state.page = "edit_subject"
-        st.rerun()
 
+        st.rerun()
 
 
     # ==========================
@@ -1090,44 +1102,43 @@ elif st.session_state.page == "subject":
 
         if data["midterm"]:
 
-            if st.button("📝 中間テスト対策"):
+            if st.button(
+                "📝 中間テスト対策",
+                width="stretch"
+            ):
 
                 st.session_state.test_mode = "midterm"
-
 
                 st.session_state.test_material = (
                     get_midterm_material(data)
                 )
-
 
                 st.session_state.page = "midterm"
 
                 st.rerun()
 
 
-
     with col2:
 
         if data["final_exam"]:
 
-            if st.button("📚 期末テスト対策"):
+            if st.button(
+                "📚 期末テスト対策",
+                width="stretch"
+            ):
 
                 st.session_state.test_mode = "final"
-
 
                 st.session_state.test_material = (
                     get_final_material(data)
                 )
-
 
                 st.session_state.page = "final"
 
                 st.rerun()
 
 
-
     st.divider()
-
 
 
     # ==========================
@@ -1142,19 +1153,19 @@ elif st.session_state.page == "subject":
     updated = False
 
 
+    # ==========================
+    # 授業データ確認
+    # ==========================
 
     for i in range(
         1,
         data["total_lessons"] + 1
     ):
 
-
         lesson_name = f"第{i}回"
 
 
-
         if lesson_name not in data["lessons"]:
-
 
             data["lessons"][lesson_name] = {
 
@@ -1168,9 +1179,7 @@ elif st.session_state.page == "subject":
 
             }
 
-
             updated = True
-
 
 
         if (
@@ -1181,13 +1190,13 @@ elif st.session_state.page == "subject":
             registered_count += 1
 
 
-
+    # ==========================
     # 授業データを保存
+    # ==========================
 
     if updated:
 
         save_subject(data)
-
 
 
     # ==========================
@@ -1204,9 +1213,7 @@ elif st.session_state.page == "subject":
     )
 
 
-
     st.divider()
-
 
 
     # ==========================
@@ -1218,7 +1225,6 @@ elif st.session_state.page == "subject":
         data["total_lessons"] + 1
     ):
 
-
         lesson_name = f"第{i}回"
 
 
@@ -1229,25 +1235,27 @@ elif st.session_state.page == "subject":
 
         if status == "登録済":
 
-            icon = "✅"
+            button_text = (
+                f"✅ {lesson_name}　登録済み"
+            )
 
         else:
 
-            icon = "📄"
-
+            button_text = (
+                f"📄 {lesson_name}　未登録"
+            )
 
 
         if st.button(
-            f"{icon} {lesson_name} - {status}"
+            button_text,
+            width="stretch"
         ):
-
 
             st.session_state.selected_lesson = lesson_name
 
             st.session_state.page = "lesson"
 
             st.rerun()
-
 
 
     st.divider()
@@ -1283,325 +1291,6 @@ elif st.session_state.page == "subject":
 
             st.rerun()
 
-# ==========================
-# 教科情報修正画面
-# ==========================
-
-elif st.session_state.page == "edit_subject":
-
-    # ==========================
-    # 教科データ読み込み
-    # ==========================
-
-    if st.session_state.selected_subject is None:
-
-        st.warning("教科を選択してください")
-
-        st.session_state.page = "resume"
-
-        st.rerun()
-
-
-    data = load_subject(
-        st.session_state.selected_subject
-    )
-
-
-    # ==========================
-    # デザイン
-    # ==========================
-
-    st.markdown("""
-    <style>
-
-    .edit-title {
-        text-align: center;
-        font-size: 34px;
-        font-weight: 700;
-        margin-bottom: 8px;
-    }
-
-    .edit-subtitle {
-        text-align: center;
-        font-size: 15px;
-        color: #666666;
-        margin-bottom: 30px;
-    }
-
-    .edit-section {
-        font-size: 21px;
-        font-weight: 700;
-        margin-top: 20px;
-        margin-bottom: 15px;
-    }
-
-    </style>
-    """, unsafe_allow_html=True)
-
-
-    # ==========================
-    # タイトル
-    # ==========================
-
-    st.markdown("""
-    <div class="edit-title">
-        ⚙️ 教科情報を修正
-    </div>
-
-    <div class="edit-subtitle">
-        登録した教科情報を修正できます
-    </div>
-    """, unsafe_allow_html=True)
-
-
-    # ==========================
-    # 基本情報
-    # ==========================
-
-    st.markdown("""
-    <div class="edit-section">
-        📘 授業の基本情報
-    </div>
-    """, unsafe_allow_html=True)
-
-
-    subject_name = st.text_input(
-        "授業名",
-        value=data["subject_name"]
-    )
-
-
-    total_lessons = st.number_input(
-        "授業回数",
-        min_value=1,
-        max_value=30,
-        value=data["total_lessons"],
-        step=1
-    )
-
-
-    st.divider()
-
-
-    # ==========================
-    # 中間テスト
-    # ==========================
-
-    st.markdown("""
-    <div class="edit-section">
-        📝 中間テスト
-    </div>
-    """, unsafe_allow_html=True)
-
-
-    midterm = st.checkbox(
-        "中間テストがある",
-        value=data["midterm"]
-    )
-
-
-    if midterm:
-
-        midterm_range = st.text_input(
-            "中間テストの範囲",
-            value=data.get("midterm_range", ""),
-            placeholder="例：第1回〜第7回"
-        )
-
-        midterm_feature = st.text_area(
-            "中間テストの特徴",
-            value=data.get("midterm_feature", ""),
-            placeholder="例：記述問題が中心。計算問題も出題される。",
-            height=100
-        )
-
-    else:
-
-        midterm_range = ""
-        midterm_feature = ""
-
-
-    st.divider()
-
-
-    # ==========================
-    # 期末テスト
-    # ==========================
-
-    st.markdown("""
-    <div class="edit-section">
-        📚 期末テスト
-    </div>
-    """, unsafe_allow_html=True)
-
-
-    final_exam = st.checkbox(
-        "期末テストがある",
-        value=data["final_exam"]
-    )
-
-
-    if final_exam:
-
-        final_range = st.text_input(
-            "期末テストの範囲",
-            value=data.get("final_range", ""),
-            placeholder="例：第8回〜第15回"
-        )
-
-        final_feature = st.text_area(
-            "期末テストの特徴",
-            value=data.get("final_feature", ""),
-            placeholder="例：授業内容をもとにした記述・応用問題が中心。",
-            height=100
-        )
-
-    else:
-
-        final_range = ""
-        final_feature = ""
-
-
-    st.divider()
-
-
-    # ==========================
-    # 保存
-    # ==========================
-
-    st.markdown("""
-    <div class="edit-section">
-        💾 修正内容を保存
-    </div>
-    """, unsafe_allow_html=True)
-
-
-    if st.button(
-        "💾 修正内容を保存する",
-        width="stretch"
-    ):
-
-        if subject_name.strip() == "":
-
-            st.warning("授業名を入力してください。")
-
-        else:
-
-            old_subject_name = data["subject_name"]
-
-            # 教科情報を更新
-
-            data["subject_name"] = subject_name
-
-            data["total_lessons"] = total_lessons
-
-            data["midterm"] = midterm
-
-            data["midterm_range"] = midterm_range
-
-            data["midterm_feature"] = midterm_feature
-
-            data["final_exam"] = final_exam
-
-            data["final_range"] = final_range
-
-            data["final_feature"] = final_feature
-
-
-            # ==========================
-            # 授業回数が増えた場合
-            # ==========================
-
-            for i in range(
-                1,
-                total_lessons + 1
-            ):
-
-                lesson_name = f"第{i}回"
-
-                if lesson_name not in data["lessons"]:
-
-                    data["lessons"][lesson_name] = {
-
-                        "status": "未登録",
-
-                        "text": "",
-
-                        "analysis": "",
-
-                        "note": ""
-
-                    }
-
-
-            # ==========================
-            # 授業回数が減った場合
-            # ==========================
-
-            for i in range(
-                total_lessons + 1,
-                len(data["lessons"]) + 1
-            ):
-
-                lesson_name = f"第{i}回"
-
-                if lesson_name in data["lessons"]:
-
-                    del data["lessons"][lesson_name]
-
-
-            # ==========================
-            # 保存
-            # ==========================
-
-            save_subject(data)
-
-
-            # 教科名が変更された場合
-
-            st.session_state.selected_subject = subject_name
-
-
-            st.success("教科情報を更新しました！")
-
-
-            st.session_state.page = "subject"
-
-            st.rerun()
-
-
-    st.divider()
-
-
-    # ==========================
-    # 戻る
-    # ==========================
-
-    col1, col2 = st.columns(2)
-
-
-    with col1:
-
-        if st.button(
-            "← 教科管理画面へ戻る",
-            width="stretch"
-        ):
-
-            st.session_state.page = "subject"
-
-            st.rerun()
-
-
-    with col2:
-
-        if st.button(
-            "🏠 ホームへ戻る",
-            width="stretch"
-        ):
-
-            st.session_state.page = "home"
-
-            st.rerun()
 
 # ==========================
 # 授業ページ
