@@ -1241,12 +1241,36 @@ elif st.session_state.page == "subject":
     st.divider()
 
 
+    # ==========================
+    # 戻る
+    # ==========================
 
-    if st.button("← 教科一覧へ戻る"):
+    col1, col2 = st.columns(2)
 
-        st.session_state.page = "resume"
 
-        st.rerun()
+    with col1:
+
+        if st.button(
+            "← 教科一覧へ戻る",
+            width="stretch"
+        ):
+
+            st.session_state.page = "resume"
+
+            st.rerun()
+
+
+    with col2:
+
+        if st.button(
+            "🏠 ホームへ戻る",
+            width="stretch"
+        ):
+
+            st.session_state.page = "home"
+
+            st.rerun()
+
 
 # ==========================
 # 授業ページ
