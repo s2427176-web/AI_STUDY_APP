@@ -1062,6 +1062,18 @@ elif st.session_state.page == "subject":
         f"授業回数：{data['total_lessons']}回"
     )
 
+    # ==========================
+    # 教科情報の修正
+    # ==========================
+
+    if st.button(
+        "⚙️ この教科の登録内容を修正する",
+        width="stretch"
+    ):
+
+        st.session_state.page = "edit_subject"
+        st.rerun()
+
 
 
     # ==========================
