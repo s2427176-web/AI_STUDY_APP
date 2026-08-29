@@ -553,27 +553,133 @@ if st.session_state.page == "home":
 
 elif st.session_state.page == "new_subject":
 
-    st.title("➕ 新しい教科を追加")
+    # ==========================
+    # デザイン設定
+    # ==========================
 
-    st.write("授業の情報を登録してください。")
+    st.markdown("""
+    <style>
+
+    /* ==========================
+       ページ全体
+       ========================== */
+
+    .block-container {
+        max-width: 900px;
+        margin: auto;
+        padding-top: 2rem;
+        padding-bottom: 3rem;
+    }
+
+
+    /* ==========================
+       タイトル
+       ========================== */
+
+    .register-title {
+        text-align: center;
+        font-size: 34px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .register-subtitle {
+        text-align: center;
+        font-size: 15px;
+        color: #666666;
+        margin-bottom: 30px;
+    }
+
+
+    /* ==========================
+       セクションタイトル
+       ========================== */
+
+    .register-section {
+        font-size: 21px;
+        font-weight: 700;
+        margin-top: 20px;
+        margin-bottom: 15px;
+    }
+
+
+    /* ==========================
+       説明文
+       ========================== */
+
+    .register-description {
+        font-size: 14px;
+        color: #666666;
+        line-height: 1.6;
+        margin-bottom: 10px;
+    }
+
+
+    /* ==========================
+       スマホ対応
+       ========================== */
+
+    @media (max-width: 768px) {
+
+        .block-container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+            padding-top: 1.5rem;
+        }
+
+        .register-title {
+            font-size: 28px;
+        }
+
+        .register-subtitle {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .register-section {
+            font-size: 19px;
+        }
+
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
 
 
     # ==========================
-    # 授業名
+    # タイトル
     # ==========================
+
+    st.markdown("""
+    <div class="register-title">
+        ➕ 新しい教科を追加
+    </div>
+
+    <div class="register-subtitle">
+        授業の情報を登録して、学習を始めましょう
+    </div>
+    """, unsafe_allow_html=True)
+
+
+    # ==========================
+    # 基本情報
+    # ==========================
+
+    st.markdown("""
+    <div class="register-section">
+        📘 授業の基本情報
+    </div>
+    """, unsafe_allow_html=True)
+
 
     subject_name = st.text_input(
-        "📘 授業名",
+        "授業名",
         placeholder="例：ミクロ経済学"
     )
 
 
-    # ==========================
-    # 授業回数
-    # ==========================
-
     total_lessons = st.number_input(
-        "📚 授業回数",
+        "授業回数",
         min_value=1,
         max_value=30,
         value=15,
@@ -588,14 +694,21 @@ elif st.session_state.page == "new_subject":
     # 中間テスト
     # ==========================
 
-    st.subheader("📝 中間テスト")
+    st.markdown("""
+    <div class="register-section">
+        📝 中間テスト
+    </div>
+    """, unsafe_allow_html=True)
+
 
     midterm = st.checkbox(
         "中間テストがある"
     )
 
+
     midterm_range = ""
     midterm_feature = ""
+
 
     if midterm:
 
@@ -618,14 +731,21 @@ elif st.session_state.page == "new_subject":
     # 期末テスト
     # ==========================
 
-    st.subheader("📚 期末テスト")
+    st.markdown("""
+    <div class="register-section">
+        📚 期末テスト
+    </div>
+    """, unsafe_allow_html=True)
+
 
     final_exam = st.checkbox(
         "期末テストがある"
     )
 
+
     final_range = ""
     final_feature = ""
+
 
     if final_exam:
 
@@ -645,12 +765,20 @@ elif st.session_state.page == "new_subject":
 
 
     # ==========================
-    # 保存
+    # 登録
     # ==========================
 
+    st.markdown("""
+    <div class="register-section">
+        🚀 学習の準備
+    </div>
+    """, unsafe_allow_html=True)
+
+
     if st.button(
-        "💾 教科を登録する",
-        width="stretch"
+        "📚 この教科を登録する",
+        width="stretch",
+        type="primary"
     ):
 
         if subject_name.strip() == "":
@@ -724,7 +852,10 @@ elif st.session_state.page == "new_subject":
     # 戻る
     # ==========================
 
-    if st.button("← ホームへ戻る"):
+    if st.button(
+        "← ホームへ戻る",
+        width="stretch"
+    ):
 
         st.session_state.page = "home"
 
