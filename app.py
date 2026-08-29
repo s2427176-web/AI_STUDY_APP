@@ -279,22 +279,33 @@ if st.session_state.page == "home":
     <style>
 
     /* ==========================
-       ホームタイトル
+       ページ全体
+       ========================== */
+
+    .block-container {
+        max-width: 900px;
+        margin: auto;
+        padding-top: 2rem;
+        padding-bottom: 3rem;
+    }
+
+
+    /* ==========================
+       タイトル
        ========================== */
 
     .home-title {
         text-align: center;
-        font-size: 36px;
+        font-size: 40px;
         font-weight: 700;
-        margin-top: 10px;
-        margin-bottom: 8px;
+        margin-bottom: 10px;
     }
 
     .home-subtitle {
         text-align: center;
-        font-size: 16px;
-        color: #5F6B73;
-        margin-bottom: 25px;
+        font-size: 18px;
+        color: #666666;
+        margin-bottom: 30px;
     }
 
 
@@ -303,37 +314,30 @@ if st.session_state.page == "home":
        ========================== */
 
     .section-title {
-        font-size: 22px;
+        font-size: 24px;
         font-weight: 700;
-        margin-top: 10px;
-        margin-bottom: 15px;
+        margin-top: 25px;
+        margin-bottom: 18px;
     }
 
 
     /* ==========================
-       カード
+       機能カード
        ========================== */
 
-    div[data-testid="stVerticalBlockBorderWrapper"] {
-        background-color: #FFFFFF;
-        border-radius: 14px;
+    .feature-title {
+        text-align: center;
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 12px;
+        white-space: nowrap;
     }
 
-
-    /* カード内タイトル */
-
-    div[data-testid="stVerticalBlockBorderWrapper"] h2 {
-        font-size: 19px !important;
-        font-weight: 600 !important;
-        margin-bottom: 8px !important;
-    }
-
-
-    /* カード内文章 */
-
-    div[data-testid="stVerticalBlockBorderWrapper"] p {
+    .feature-description {
+        text-align: center;
         font-size: 14px;
-        line-height: 1.6;
+        line-height: 1.7;
+        color: #555555;
     }
 
 
@@ -343,42 +347,31 @@ if st.session_state.page == "home":
 
     @media (max-width: 768px) {
 
-        /* ホームタイトル */
+        .block-container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+            padding-top: 1.5rem;
+        }
 
         .home-title {
-            font-size: 28px;
-            text-align: center;
+            font-size: 30px;
         }
-
-
-        /* サブタイトル */
 
         .home-subtitle {
-            font-size: 14px;
+            font-size: 15px;
             line-height: 1.6;
-            text-align: center;
         }
-
-
-        /* セクションタイトル */
 
         .section-title {
-            font-size: 20px;
-            text-align: center;
+            font-size: 21px;
         }
 
-
-        /* カード */
-
-        div[data-testid="stVerticalBlockBorderWrapper"] {
-            text-align: center;
+        .feature-title {
+            font-size: 19px;
         }
 
-
-        /* カードタイトル */
-
-        div[data-testid="stVerticalBlockBorderWrapper"] h2 {
-            font-size: 18px !important;
+        .feature-description {
+            font-size: 14px;
         }
 
     }
@@ -391,17 +384,15 @@ if st.session_state.page == "home":
     # タイトル
     # ==========================
 
-    st.markdown(
-        '<div class="home-title">📚 AI学習支援サービス</div>',
-        unsafe_allow_html=True
-    )
+    st.markdown("""
+    <div class="home-title">
+        📚 AI学習支援サービス
+    </div>
 
-    st.markdown(
-        '<div class="home-subtitle">'
-        '「分かったつもり」をなくし、効率的な復習をサポート'
-        '</div>',
-        unsafe_allow_html=True
-    )
+    <div class="home-subtitle">
+        「分かったつもり」をなくし、効率的な復習をサポート
+    </div>
+    """, unsafe_allow_html=True)
 
 
     # ==========================
@@ -425,8 +416,7 @@ if st.session_state.page == "home":
 
         **④ 復習する**
 
-        確認問題などを活用して、
-        理解が不十分な内容を復習します。
+        確認問題などを活用して、理解が不十分な内容を復習します。
         """)
 
 
@@ -434,16 +424,15 @@ if st.session_state.page == "home":
     # このサービスでできること
     # ==========================
 
-    st.markdown(
-        '<div class="section-title">'
-        '✨ このサービスでできること'
-        '</div>',
-        unsafe_allow_html=True
-    )
+    st.markdown("""
+    <div class="section-title">
+        ✨ このサービスでできること
+    </div>
+    """, unsafe_allow_html=True)
 
 
     # ==========================
-    # 機能カード
+    # カード①・②
     # ==========================
 
     col1, col2 = st.columns(2)
@@ -453,58 +442,85 @@ if st.session_state.page == "home":
 
         with st.container(border=True):
 
-            st.markdown("## ✨ AI要約")
+            st.markdown("""
+            <div class="feature-title">
+                ✨ AI要約
+            </div>
+            """, unsafe_allow_html=True)
 
-            st.write(
-                "講義資料の内容をAIが整理し、"
-                "短時間で復習しやすくします。"
-            )
+            st.markdown("""
+            <div class="feature-description">
+                講義資料の内容をAIが整理し、<br>
+                短時間で復習しやすくします。
+            </div>
+            """, unsafe_allow_html=True)
 
 
         with st.container(border=True):
 
-            st.markdown("## 🎯 重要ポイント整理")
+            st.markdown("""
+            <div class="feature-title">
+                🎯 重要ポイント整理
+            </div>
+            """, unsafe_allow_html=True)
 
-            st.write(
-                "講義資料から重要な内容を整理し、"
-                "学習すべきポイントを確認できます。"
-            )
+            st.markdown("""
+            <div class="feature-description">
+                講義資料から重要な内容を整理し、<br>
+                学習すべきポイントを確認できます。
+            </div>
+            """, unsafe_allow_html=True)
 
+
+    # ==========================
+    # カード③・④
+    # ==========================
 
     with col2:
 
         with st.container(border=True):
 
-            st.markdown("## 📝 確認問題")
+            st.markdown("""
+            <div class="feature-title">
+                📝 確認問題
+            </div>
+            """, unsafe_allow_html=True)
 
-            st.write(
-                "AIが講義内容から問題を生成し、"
-                "自分の理解度を確認できます。"
-            )
+            st.markdown("""
+            <div class="feature-description">
+                AIが講義内容から問題を生成し、<br>
+                自分の理解度を確認できます。
+            </div>
+            """, unsafe_allow_html=True)
 
 
         with st.container(border=True):
 
-            st.markdown("## 🔄 復習ポイント")
+            st.markdown("""
+            <div class="feature-title">
+                🔄 復習ポイント
+            </div>
+            """, unsafe_allow_html=True)
 
-            st.write(
-                "理解が不十分な内容を振り返り、"
-                "効率的な復習をサポートします。"
-            )
+            st.markdown("""
+            <div class="feature-description">
+                理解が不十分な内容を振り返り、<br>
+                効率的な復習をサポートします。
+            </div>
+            """, unsafe_allow_html=True)
 
 
     # ==========================
-    # 学習開始
+    # 学習を始める
     # ==========================
 
-    st.markdown("<br>", unsafe_allow_html=True)
+    st.divider()
 
-    st.markdown(
-        '<div class="section-title">'
-        '📖 学習を始める'
-        '</div>',
-        unsafe_allow_html=True
-    )
+    st.markdown("""
+    <div class="section-title">
+        📖 学習を始める
+    </div>
+    """, unsafe_allow_html=True)
 
 
     col1, col2 = st.columns(2)
@@ -518,7 +534,6 @@ if st.session_state.page == "home":
         ):
 
             st.session_state.page = "new_subject"
-
             st.rerun()
 
 
@@ -530,7 +545,6 @@ if st.session_state.page == "home":
         ):
 
             st.session_state.page = "resume"
-
             st.rerun()
 
 # ==========================
