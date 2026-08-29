@@ -278,38 +278,107 @@ if st.session_state.page == "home":
     st.markdown("""
     <style>
 
-    /* 背景を薄い水色に */
-    .stApp {
-        background-color: #F0F8FF;
+    /* ==========================
+       ホームタイトル
+       ========================== */
+
+    .home-title {
+        text-align: center;
+        font-size: 36px;
+        font-weight: 700;
+        margin-top: 10px;
+        margin-bottom: 8px;
     }
 
-    /* カード内のタイトルを少し小さく */
+    .home-subtitle {
+        text-align: center;
+        font-size: 16px;
+        color: #5F6B73;
+        margin-bottom: 25px;
+    }
+
+
+    /* ==========================
+       セクションタイトル
+       ========================== */
+
+    .section-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin-top: 10px;
+        margin-bottom: 15px;
+    }
+
+
+    /* ==========================
+       カード
+       ========================== */
+
+    div[data-testid="stVerticalBlockBorderWrapper"] {
+        background-color: #FFFFFF;
+        border-radius: 14px;
+    }
+
+
+    /* カード内タイトル */
+
     div[data-testid="stVerticalBlockBorderWrapper"] h2 {
-        font-size: 20px !important;
+        font-size: 19px !important;
+        font-weight: 600 !important;
+        margin-bottom: 8px !important;
     }
 
-    /* スマホ・PCともにホーム画面の文字を見やすく */
+
+    /* カード内文章 */
+
+    div[data-testid="stVerticalBlockBorderWrapper"] p {
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+
+    /* ==========================
+       スマホ対応
+       ========================== */
+
     @media (max-width: 768px) {
 
-        .block-container {
-            padding-left: 1rem;
-            padding-right: 1rem;
+        /* ホームタイトル */
+
+        .home-title {
+            font-size: 28px;
+            text-align: center;
         }
 
-        /* タイトル */
-        h1 {
-            text-align: center;
-            font-size: 30px !important;
-        }
 
         /* サブタイトル */
-        h3 {
+
+        .home-subtitle {
+            font-size: 14px;
+            line-height: 1.6;
             text-align: center;
         }
 
-        /* カード内 */
+
+        /* セクションタイトル */
+
+        .section-title {
+            font-size: 20px;
+            text-align: center;
+        }
+
+
+        /* カード */
+
         div[data-testid="stVerticalBlockBorderWrapper"] {
             text-align: center;
+        }
+
+
+        /* カードタイトル */
+
+        div[data-testid="stVerticalBlockBorderWrapper"] h2 {
+            font-size: 18px !important;
         }
 
     }
@@ -317,17 +386,22 @@ if st.session_state.page == "home":
     </style>
     """, unsafe_allow_html=True)
 
+
     # ==========================
     # タイトル
     # ==========================
 
-    st.title("📚 AI学習支援サービス")
-
     st.markdown(
-        "### 「分かったつもり」をなくし、効率的な復習をサポート"
+        '<div class="home-title">📚 AI学習支援サービス</div>',
+        unsafe_allow_html=True
     )
 
-    st.divider()
+    st.markdown(
+        '<div class="home-subtitle">'
+        '「分かったつもり」をなくし、効率的な復習をサポート'
+        '</div>',
+        unsafe_allow_html=True
+    )
 
 
     # ==========================
@@ -351,7 +425,8 @@ if st.session_state.page == "home":
 
         **④ 復習する**
 
-        確認問題などを活用して、理解が不十分な内容を復習します。
+        確認問題などを活用して、
+        理解が不十分な内容を復習します。
         """)
 
 
@@ -359,9 +434,20 @@ if st.session_state.page == "home":
     # このサービスでできること
     # ==========================
 
-    st.subheader("✨ このサービスでできること")
+    st.markdown(
+        '<div class="section-title">'
+        '✨ このサービスでできること'
+        '</div>',
+        unsafe_allow_html=True
+    )
+
+
+    # ==========================
+    # 機能カード
+    # ==========================
 
     col1, col2 = st.columns(2)
+
 
     with col1:
 
@@ -408,14 +494,21 @@ if st.session_state.page == "home":
 
 
     # ==========================
-    # 学習を始める
+    # 学習開始
     # ==========================
 
-    st.divider()
+    st.markdown("<br>", unsafe_allow_html=True)
 
-    st.subheader("📖 学習を始める")
+    st.markdown(
+        '<div class="section-title">'
+        '📖 学習を始める'
+        '</div>',
+        unsafe_allow_html=True
+    )
+
 
     col1, col2 = st.columns(2)
+
 
     with col1:
 
@@ -425,6 +518,7 @@ if st.session_state.page == "home":
         ):
 
             st.session_state.page = "new_subject"
+
             st.rerun()
 
 
@@ -436,6 +530,7 @@ if st.session_state.page == "home":
         ):
 
             st.session_state.page = "resume"
+
             st.rerun()
 
 # ==========================
