@@ -1612,6 +1612,8 @@ elif st.session_state.page == "edit_subject":
 
             st.rerun()
 
+
+
 # ==========================
 # 授業ページ
 # ==========================
@@ -1645,10 +1647,14 @@ elif st.session_state.page == "lesson":
         st.session_state.current_lesson = lesson_name
 
 
+    # ==========================
+    # タイトル
+    # ==========================
 
     st.title(
         f"{data['subject_name']} - {lesson_name}"
     )
+
 
     # ==========================
     # 上部の戻るボタン
@@ -1661,7 +1667,8 @@ elif st.session_state.page == "lesson":
 
         if st.button(
             "← 授業一覧へ戻る",
-            width="stretch"
+            width="stretch",
+            key="lesson_back_top"
         ):
 
             st.session_state.page = "subject"
@@ -1673,12 +1680,14 @@ elif st.session_state.page == "lesson":
 
         if st.button(
             "🏠 ホームへ戻る",
-            width="stretch"
+            width="stretch",
+            key="lesson_home_top"
         ):
 
             st.session_state.page = "home"
 
             st.rerun()
+
 
     # ==========================
     # 既存データ取得
@@ -1696,7 +1705,6 @@ elif st.session_state.page == "lesson":
     )
 
 
-
     # ==========================
     # PDFアップロード
     # ==========================
@@ -1710,9 +1718,7 @@ elif st.session_state.page == "lesson":
     extracted_text = lesson_text
 
 
-
     if uploaded_file:
-
 
         reader = PdfReader(uploaded_file)
 
@@ -1721,14 +1727,11 @@ elif st.session_state.page == "lesson":
 
         for page in reader.pages:
 
-
             page_text = page.extract_text()
-
 
             if page_text:
 
                 extracted_text += page_text
-
 
 
         st.success(
@@ -1741,7 +1744,6 @@ elif st.session_state.page == "lesson":
             extracted_text[:5000],
             height=250
         )
-
 
 
     # ==========================
@@ -1758,13 +1760,14 @@ elif st.session_state.page == "lesson":
     )
 
 
-
     # ==========================
     # 保存
     # ==========================
 
-    if st.button("💾 保存"):
-
+    if st.button(
+        "💾 保存",
+        key="lesson_save"
+    ):
 
         data["lessons"][lesson_name]["text"] = (
             extracted_text
@@ -1789,7 +1792,6 @@ elif st.session_state.page == "lesson":
         st.rerun()
 
 
-
     # ==========================
     # AI用資料
     # ==========================
@@ -1806,22 +1808,17 @@ elif st.session_state.page == "lesson":
 """
 
 
-
     if (
         data["lessons"][lesson_name].get("text", "")
         != ""
     ):
 
-
         st.divider()
-
 
         st.subheader("🤖 AI学習サポート")
 
 
-
         col1, col2, col3 = st.columns(3)
-
 
 
         # ==========================
@@ -1830,12 +1827,12 @@ elif st.session_state.page == "lesson":
 
         with col1:
 
-
-            if st.button("📄 授業要約"):
-
+            if st.button(
+                "📄 授業要約",
+                key="lesson_summary"
+            ):
 
                 with st.spinner("要約中..."):
-
 
                     response = client.models.generate_content(
 
@@ -1843,7 +1840,17 @@ elif st.session_state.page == "lesson":
 
                         contents=f"""
 
-以下を200文字程度で要約してください。
+あなたは大学の講義資料を分析する学習支援AIです。
+
+以下の授業資料と授業メモを最初から最後まで確認し、
+一部だけを抜き出すのではなく、授業全体の内容を把握したうえで
+200〜300文字程度に要約してください。
+
+授業の中心となるテーマ、主な内容、重要な考え方、
+授業全体の結論が分かるようにしてください。
+
+テストの日程、提出期限、授業スケジュールなどの
+事務的な情報は要約の中心に含めないでください。
 
 
 {study_material}
@@ -1858,19 +1865,18 @@ elif st.session_state.page == "lesson":
                     )
 
 
-
         # ==========================
         # 重要ポイント
         # ==========================
 
         with col2:
 
-
-            if st.button("⭐ 重要ポイント"):
-
+            if st.button(
+                "⭐ 重要ポイント",
+                key="lesson_important"
+            ):
 
                 with st.spinner("分析中..."):
-
 
                     response = client.models.generate_content(
 
@@ -1878,8 +1884,32 @@ elif st.session_state.page == "lesson":
 
                         contents=f"""
 
-以下から重要ポイントを
-5個抽出してください。
+あなたは大学生の試験勉強を支援するAIです。
+
+以下の授業資料と授業メモを最初から最後まで確認し、
+この授業で本当に理解しておくべき重要な学習内容を
+5個程度抽出してください。
+
+以下を優先してください。
+
+・重要な用語や定義
+・理論や考え方
+・重要な仕組み
+・因果関係
+・計算方法や考え方
+・授業で特に重要に扱われている内容
+
+一方で、以下のような事務的な情報は
+重要ポイントに含めないでください。
+
+・テストの日程
+・提出期限
+・授業スケジュール
+・出席に関する情報
+・その他の事務連絡
+
+単なる箇条書きではなく、
+「なぜ重要なのか」が分かるように簡潔に説明してください。
 
 
 {study_material}
@@ -1894,19 +1924,18 @@ elif st.session_state.page == "lesson":
                     )
 
 
-
         # ==========================
-        # 問題生成
+        # 確認問題
         # ==========================
 
         with col3:
 
-
-            if st.button("📝 確認問題チャレンジ"):
-
+            if st.button(
+                "📝 確認問題チャレンジ",
+                key="lesson_question"
+            ):
 
                 with st.spinner("問題作成中..."):
-
 
                     response = client.models.generate_content(
 
@@ -1914,15 +1943,29 @@ elif st.session_state.page == "lesson":
 
                         contents=f"""
 
-あなたは大学教授です。
+あなたは大学生の学習を支援するAIです。
 
+以下の授業資料をもとに、
+授業内容を理解できているかを簡単に確認できる
+確認問題を1問作成してください。
 
-以下を基に
-大学レベルの記述問題を
-1問作成してください。
+定期試験のような難しい記述問題ではなく、
+短時間で答えられる簡単な問題にしてください。
 
+問題形式は以下のいずれかからランダムに選んでください。
 
-解答は表示しないこと。
+・4択問題
+・穴埋め問題
+・用語を答える問題
+・簡単な正誤問題
+
+授業資料に書かれている内容だけを使い、
+問題文と選択肢または回答欄だけを表示してください。
+
+正解や解説は表示しないでください。
+
+また、テストの日程や授業スケジュールなどの
+事務的な情報を問題にしないでください。
 
 
 {study_material}
@@ -1936,6 +1979,7 @@ elif st.session_state.page == "lesson":
                         response.text
                     )
 
+                    st.session_state.grading_result = ""
 
 
         # ==========================
@@ -1944,17 +1988,13 @@ elif st.session_state.page == "lesson":
 
         if st.session_state.summary_result:
 
-
             st.divider()
 
-
             st.subheader("📄 授業要約")
-
 
             st.markdown(
                 st.session_state.summary_result
             )
-
 
 
         # ==========================
@@ -1963,31 +2003,24 @@ elif st.session_state.page == "lesson":
 
         if st.session_state.important_result:
 
-
             st.divider()
 
-
             st.subheader("⭐ 重要ポイント")
-
 
             st.markdown(
                 st.session_state.important_result
             )
 
 
-
         # ==========================
-        # 問題表示
+        # 確認問題
         # ==========================
 
         if st.session_state.generated_question:
 
-
             st.divider()
 
-
             st.subheader("📝 確認問題")
-
 
             st.markdown(
                 st.session_state.generated_question
@@ -1996,24 +2029,101 @@ elif st.session_state.page == "lesson":
 
             answer = st.text_area(
                 "あなたの回答",
-                height=200
+                height=150,
+                key="lesson_answer"
             )
 
 
+            # ==========================
+            # 採点
+            # ==========================
 
-            if st.button("📊 採点する"):
+            col1, col2 = st.columns(2)
 
 
-                with st.spinner("採点中..."):
+            with col1:
+
+                if st.button(
+                    "📊 回答を確認",
+                    key="lesson_grade"
+                ):
+
+                    with st.spinner("回答を確認中..."):
+
+                        result = client.models.generate_content(
+
+                            model="gemini-3.6-flash",
+
+                            contents=f"""
+
+あなたは大学生の学習を支援するAIです。
+
+以下の問題と学生の回答を確認してください。
+
+問題
+
+{st.session_state.generated_question}
 
 
-                    result = client.models.generate_content(
+学生の回答
 
-                        model="gemini-3.6-flash",
+{answer}
 
-                        contents=f"""
 
-あなたは大学教授です。
+以下の形式で簡潔に評価してください。
+
+
+【判定】
+
+正解 / ほぼ正解 / 不正解
+
+
+【解説】
+
+正解の場合は簡単な説明をしてください。
+不正解の場合は、なぜ間違っているのかを説明してください。
+
+
+【正しい答え】
+
+正しい答えを示してください。
+
+
+【復習ポイント】
+
+この問題に関連して覚えておくべき内容を
+1〜2個示してください。
+
+"""
+
+                        )
+
+
+                        st.session_state.grading_result = (
+                            result.text
+                        )
+
+
+            with col2:
+
+                if st.button(
+                    "💡 わからない",
+                    key="lesson_hint"
+                ):
+
+                    with st.spinner("ヒントを作成中..."):
+
+                        hint = client.models.generate_content(
+
+                            model="gemini-3.6-flash",
+
+                            contents=f"""
+
+以下の確認問題について、
+答えを直接教えずに学生が自分で考えられるような
+簡単なヒントを1つ作ってください。
+
+授業資料の内容をもとにしてください。
 
 
 問題
@@ -2021,78 +2131,44 @@ elif st.session_state.page == "lesson":
 {st.session_state.generated_question}
 
 
-
-学生回答
-
-{answer}
-
-
-
-模範解答も示しながら
-以下の形式で評価してください。
-
-
-
-【得点】
-
-100点満点
-
-
-
-【模範解答】
-
-
-
-【解説】
-
-
-
-【復習すべきポイント】
-
-
-
-【理解度コメント】
+{study_material}
 
 """
 
-                    )
+                        )
 
 
-                    st.session_state.grading_result = (
-                        result.text
-                    )
-
+                        st.session_state.grading_result = (
+                            "💡 **ヒント**\n\n"
+                            + hint.text
+                        )
 
 
         # ==========================
-        # 採点結果
+        # 確認結果
         # ==========================
 
         if st.session_state.grading_result:
 
-
             st.divider()
 
-
-            st.subheader("📊 採点結果")
-
+            st.subheader("📊 確認結果")
 
             st.markdown(
                 st.session_state.grading_result
             )
 
 
-
-            if st.button("➡ 次の問題へ"):
-
+            if st.button(
+                "➡ 次の問題へ",
+                key="lesson_next_question"
+            ):
 
                 st.session_state.generated_question = ""
 
                 st.session_state.grading_result = ""
 
                 st.rerun()
-
-
 
 
     # ==========================
@@ -2109,7 +2185,8 @@ elif st.session_state.page == "lesson":
 
         if st.button(
             "← 授業一覧へ戻る",
-            width="stretch"
+            width="stretch",
+            key="lesson_back_bottom"
         ):
 
             st.session_state.page = "subject"
@@ -2121,7 +2198,8 @@ elif st.session_state.page == "lesson":
 
         if st.button(
             "🏠 ホームへ戻る",
-            width="stretch"
+            width="stretch",
+            key="lesson_home_bottom"
         ):
 
             st.session_state.page = "home"
@@ -2130,12 +2208,6 @@ elif st.session_state.page == "lesson":
 
 
 
-    if st.button("← 授業一覧へ戻る"):
-
-
-        st.session_state.page = "subject"
-
-        st.rerun()
 
 # ==========================
 # 中間テスト対策ページ
