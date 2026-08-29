@@ -863,7 +863,7 @@ elif st.session_state.page == "new_subject":
 
         st.rerun()
 
-```python
+
 # ==========================
 # 教科一覧画面
 # ==========================
@@ -1033,8 +1033,6 @@ elif st.session_state.page == "resume":
 
         st.session_state.page = "home"
         st.rerun()
-```
-
 
 
 
