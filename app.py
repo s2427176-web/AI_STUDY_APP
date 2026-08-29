@@ -272,6 +272,52 @@ def get_final_material(data):
 if st.session_state.page == "home":
 
     # ==========================
+    # ホーム画面デザイン
+    # ==========================
+
+    st.markdown("""
+    <style>
+
+    /* 背景を薄い水色に */
+    .stApp {
+        background-color: #F0F8FF;
+    }
+
+    /* カード内のタイトルを少し小さく */
+    div[data-testid="stVerticalBlockBorderWrapper"] h2 {
+        font-size: 20px !important;
+    }
+
+    /* スマホ・PCともにホーム画面の文字を見やすく */
+    @media (max-width: 768px) {
+
+        .block-container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        /* タイトル */
+        h1 {
+            text-align: center;
+            font-size: 30px !important;
+        }
+
+        /* サブタイトル */
+        h3 {
+            text-align: center;
+        }
+
+        /* カード内 */
+        div[data-testid="stVerticalBlockBorderWrapper"] {
+            text-align: center;
+        }
+
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
+
+    # ==========================
     # タイトル
     # ==========================
 
@@ -391,6 +437,164 @@ if st.session_state.page == "home":
 
             st.session_state.page = "resume"
             st.rerun()
+
+# ==========================
+# 新しい教科を追加
+# ==========================
+
+elif st.session_state.page == "new_subject":
+
+    st.title("➕ 新しい教科を追加")
+
+    st.write("授業の情報を登録してください。")
+
+    # ==========================
+    # 授業名
+    # ==========================
+
+    subject_name = st.text_input(
+        "📘 授業名",
+        placeholder="例：ミクロ経済学"
+    )
+
+
+    # ==========================
+    # 授業回数
+    # ==========================
+
+    total_lessons = st.number_input(
+        "📚 授業回数",
+        min_value=1,
+        max_value=30,
+        value=15,
+        step=1
+    )
+
+
+    st.divider()
+
+
+    # ==========================
+    # 中間テスト
+    # ==========================
+
+    st.subheader("📝 中間テスト")
+
+    midterm = st.checkbox(
+        "中間テストがある"
+    )
+
+    midterm_range = ""
+
+    if midterm:
+
+        midterm_range = st.text_input(
+            "中間テストの範囲",
+            placeholder="例：第1回〜第7回"
+        )
+
+
+    st.divider()
+
+
+    # ==========================
+    # 期末テスト
+    # ==========================
+
+    st.subheader("📚 期末テスト")
+
+    final_exam = st.checkbox(
+        "期末テストがある"
+    )
+
+    final_range = ""
+
+    if final_exam:
+
+        final_range = st.text_input(
+            "期末テストの範囲",
+            placeholder="例：第8回〜第15回"
+        )
+
+
+    st.divider()
+
+
+    # ==========================
+    # 保存
+    # ==========================
+
+    if st.button(
+        "💾 教科を登録する",
+        width="stretch"
+    ):
+
+        if subject_name.strip() == "":
+
+            st.warning("授業名を入力してください。")
+
+        else:
+
+            data = {
+
+                "subject_name": subject_name,
+
+                "total_lessons": total_lessons,
+
+                "midterm": midterm,
+
+                "midterm_range": midterm_range,
+
+                "final_exam": final_exam,
+
+                "final_range": final_range,
+
+                "lessons": {}
+
+            }
+
+
+            # 授業データを作成
+
+            for i in range(
+                1,
+                total_lessons + 1
+            ):
+
+                lesson_name = f"第{i}回"
+
+                data["lessons"][lesson_name] = {
+
+                    "status": "未登録",
+
+                    "text": "",
+
+                    "analysis": "",
+
+                    "note": ""
+
+                }
+
+
+            save_subject(data)
+
+
+            st.session_state.selected_subject = subject_name
+
+            st.session_state.page = "subject"
+
+            st.rerun()
+
+
+    # ==========================
+    # 戻る
+    # ==========================
+
+    if st.button("← 戻る"):
+
+        st.session_state.page = "home"
+
+        st.rerun()
 
 # ==========================
 # 教科一覧画面
