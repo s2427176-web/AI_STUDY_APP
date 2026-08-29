@@ -777,8 +777,7 @@ elif st.session_state.page == "new_subject":
 
     if st.button(
         "📚 この教科を登録する",
-        width="stretch",
-        type="primary"
+        width="stretch"
     ):
 
         if subject_name.strip() == "":
@@ -849,13 +848,12 @@ elif st.session_state.page == "new_subject":
 
 
     # ==========================
-    # 戻る
+    # ホーム画面に戻る
     # ==========================
 
     if st.button(
-        "➕ 新しい教材を追加",
-        width="stretch",
-        type="primary"
+        "🏠 ホーム画面に戻る",
+        width="stretch"
     ):
 
         st.session_state.page = "home"
