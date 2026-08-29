@@ -529,9 +529,10 @@ if st.session_state.page == "home":
     with col1:
 
         if st.button(
-            "➕ 新しい教材を追加",
-            width="stretch"
-        ):
+     "➕ 新しい教材を追加",
+     width="stretch",
+    type="primary"
+):
 
             st.session_state.page = "new_subject"
             st.rerun()
@@ -853,23 +854,131 @@ elif st.session_state.page == "new_subject":
     # ==========================
 
     if st.button(
-        "← ホームへ戻る",
-        width="stretch"
+        "➕ 新しい教材を追加",
+        width="stretch",
+        type="primary"
     ):
 
         st.session_state.page = "home"
 
         st.rerun()
 
+```python
 # ==========================
 # 教科一覧画面
 # ==========================
 
 elif st.session_state.page == "resume":
 
-    st.title("📖 教科一覧")
+    # ==========================
+    # 教科一覧画面デザイン
+    # ==========================
+
+    st.markdown("""
+    <style>
+
+    /* ==========================
+       ページ全体
+       ========================== */
+
+    .block-container {
+        max-width: 900px;
+        margin: auto;
+        padding-top: 2rem;
+        padding-bottom: 3rem;
+    }
+
+
+    /* ==========================
+       タイトル
+       ========================== */
+
+    .subject-list-title {
+        text-align: center;
+        font-size: 34px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .subject-list-subtitle {
+        text-align: center;
+        font-size: 15px;
+        color: #666666;
+        margin-bottom: 30px;
+    }
+
+
+    /* ==========================
+       セクションタイトル
+       ========================== */
+
+    .subject-list-section {
+        font-size: 21px;
+        font-weight: 700;
+        margin-top: 20px;
+        margin-bottom: 15px;
+    }
+
+
+    /* ==========================
+       スマホ対応
+       ========================== */
+
+    @media (max-width: 768px) {
+
+        .block-container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+            padding-top: 1.5rem;
+        }
+
+        .subject-list-title {
+            font-size: 28px;
+        }
+
+        .subject-list-subtitle {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .subject-list-section {
+            font-size: 19px;
+        }
+
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
+
+
+    # ==========================
+    # タイトル
+    # ==========================
+
+    st.markdown("""
+    <div class="subject-list-title">
+        📖 教科一覧
+    </div>
+
+    <div class="subject-list-subtitle">
+        学習したい教科を選択してください
+    </div>
+    """, unsafe_allow_html=True)
+
+
+    # ==========================
+    # 教科一覧
+    # ==========================
+
+    st.markdown("""
+    <div class="subject-list-section">
+        📚 登録されている教科
+    </div>
+    """, unsafe_allow_html=True)
+
 
     subjects = get_subject_list()
+
 
     if len(subjects) == 0:
 
@@ -879,7 +988,10 @@ elif st.session_state.page == "resume":
 
         for subject in subjects:
 
-            if st.button(f"📘 {subject}"):
+            if st.button(
+                f"📘 {subject}",
+                width="stretch"
+            ):
 
                 st.session_state.selected_subject = subject
                 st.session_state.page = "subject"
@@ -889,16 +1001,40 @@ elif st.session_state.page == "resume":
     st.divider()
 
 
-    if st.button("➕ 新しい教科を追加"):
+    # ==========================
+    # 新しい教科を追加
+    # ==========================
+
+    st.markdown("""
+    <div class="subject-list-section">
+        🚀 学習の準備
+    </div>
+    """, unsafe_allow_html=True)
+
+
+    if st.button(
+        "➕ 新しい教科を追加",
+        width="stretch",
+        type="primary"
+    ):
 
         st.session_state.page = "new_subject"
         st.rerun()
 
 
-    if st.button("← ホームへ戻る"):
+    # ==========================
+    # ホームへ戻る
+    # ==========================
+
+    if st.button(
+        "← ホームへ戻る",
+        width="stretch"
+    ):
 
         st.session_state.page = "home"
         st.rerun()
+```
+
 
 
 
