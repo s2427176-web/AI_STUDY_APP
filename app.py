@@ -530,8 +530,7 @@ if st.session_state.page == "home":
 
         if st.button(
      "➕ 新しい教材を追加",
-     width="stretch",
-    type="primary"
+     width="stretch"
 ):
 
             st.session_state.page = "new_subject"
