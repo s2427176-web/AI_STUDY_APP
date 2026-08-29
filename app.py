@@ -448,6 +448,7 @@ elif st.session_state.page == "new_subject":
 
     st.write("授業の情報を登録してください。")
 
+
     # ==========================
     # 授業名
     # ==========================
@@ -485,12 +486,19 @@ elif st.session_state.page == "new_subject":
     )
 
     midterm_range = ""
+    midterm_feature = ""
 
     if midterm:
 
         midterm_range = st.text_input(
             "中間テストの範囲",
             placeholder="例：第1回〜第7回"
+        )
+
+        midterm_feature = st.text_area(
+            "中間テストの特徴",
+            placeholder="例：記述問題が中心。計算問題も出題される。",
+            height=100
         )
 
 
@@ -508,12 +516,19 @@ elif st.session_state.page == "new_subject":
     )
 
     final_range = ""
+    final_feature = ""
 
     if final_exam:
 
         final_range = st.text_input(
             "期末テストの範囲",
             placeholder="例：第8回〜第15回"
+        )
+
+        final_feature = st.text_area(
+            "期末テストの特徴",
+            placeholder="例：授業内容をもとにした記述・応用問題が中心。",
+            height=100
         )
 
 
@@ -545,16 +560,22 @@ elif st.session_state.page == "new_subject":
 
                 "midterm_range": midterm_range,
 
+                "midterm_feature": midterm_feature,
+
                 "final_exam": final_exam,
 
                 "final_range": final_range,
+
+                "final_feature": final_feature,
 
                 "lessons": {}
 
             }
 
 
+            # ==========================
             # 授業データを作成
+            # ==========================
 
             for i in range(
                 1,
@@ -576,6 +597,10 @@ elif st.session_state.page == "new_subject":
                 }
 
 
+            # ==========================
+            # 保存
+            # ==========================
+
             save_subject(data)
 
 
@@ -590,7 +615,7 @@ elif st.session_state.page == "new_subject":
     # 戻る
     # ==========================
 
-    if st.button("← 戻る"):
+    if st.button("← ホームへ戻る"):
 
         st.session_state.page = "home"
 
