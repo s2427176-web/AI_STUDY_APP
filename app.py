@@ -1650,7 +1650,35 @@ elif st.session_state.page == "lesson":
         f"{data['subject_name']} - {lesson_name}"
     )
 
+    # ==========================
+    # 上部の戻るボタン
+    # ==========================
 
+    col1, col2 = st.columns(2)
+
+
+    with col1:
+
+        if st.button(
+            "← 授業一覧へ戻る",
+            width="stretch"
+        ):
+
+            st.session_state.page = "subject"
+
+            st.rerun()
+
+
+    with col2:
+
+        if st.button(
+            "🏠 ホームへ戻る",
+            width="stretch"
+        ):
+
+            st.session_state.page = "home"
+
+            st.rerun()
 
     # ==========================
     # 既存データ取得
@@ -2066,7 +2094,39 @@ elif st.session_state.page == "lesson":
 
 
 
+
+    # ==========================
+    # 下部の戻るボタン
+    # ==========================
+
     st.divider()
+
+
+    col1, col2 = st.columns(2)
+
+
+    with col1:
+
+        if st.button(
+            "← 授業一覧へ戻る",
+            width="stretch"
+        ):
+
+            st.session_state.page = "subject"
+
+            st.rerun()
+
+
+    with col2:
+
+        if st.button(
+            "🏠 ホームへ戻る",
+            width="stretch"
+        ):
+
+            st.session_state.page = "home"
+
+            st.rerun()
 
 
 
